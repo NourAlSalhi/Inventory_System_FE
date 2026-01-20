@@ -1,8 +1,11 @@
 export interface InventoryItem {
-  product_id: number;
-  product_name: string;
-  sku: string;
-  quantity: number;
+  item : {
+    product_id: number;
+    product_name: string;
+    sku: string;
+    quantity: number;
+    Product: [name: string, sku: string];
+  }
 }
 export interface Location {
   id: number;
@@ -13,6 +16,9 @@ export interface InventoryProduct {
   id: number;
   product_name: string;
   quantity: number;
+  Prouduct: {
+    name: string; 
+  }
 }
 export interface TransferFormProps {
   onTransferSuccess?: () => void;

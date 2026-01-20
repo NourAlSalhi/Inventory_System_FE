@@ -61,9 +61,9 @@ const TransferForm = ({ onTransferSuccess }: TransferFormProps) => {
   
       const products: InventoryProduct[] = json.data.map((p: any) => ({
         id: p.product_id,
-        product_name: p.product_name,
+        product_name: p.Product.name,
         quantity: p.quantity,
-      }));
+      }));      
   
       setForm((prev) => ({
         ...prev,

@@ -19,26 +19,26 @@ const InventoryTable = ({ data }: Props) => (
       <tbody className="divide-y">
         {data.map((item) => {
           const status =
-            item.quantity === 0
+            item.item.quantity === 0
               ? "Out of Stock"
-              : item.quantity < 20
+              : item.item.quantity < 20
                 ? "Low Stock"
                 : "In Stock";
 
           const badgeColor =
-            item.quantity === 0
+            item.item.quantity === 0
               ? "bg-red-100 text-red-700"
-              : item.quantity < 20
+              : item.item.quantity < 20
                 ? "bg-yellow-100 text-yellow-700"
                 : "bg-green-100 text-green-700";
 
           return (
-            <tr key={item.sku}>
+            <tr key={item.item.sku}>
               <td className="px-6 py-4 font-medium text-left">
-                {item.product_name}
+                {item.item.Product?.name}
               </td>
-              <td className="px-6 py-4 text-gray-500 text-left">{item.sku}</td>
-              <td className="px-6 py-4 font-semibold text-left">{item.quantity}</td>
+              <td className="px-6 py-4 text-gray-500 text-left">{item.item.Product?.sku}</td>
+              <td className="px-6 py-4 font-semibold text-left">{item.item.quantity}</td>
               <td className="px-6 py-4 text-left">
                 <span
                   className={`rounded-full px-3 py-1 text-xs ${badgeColor}`}
