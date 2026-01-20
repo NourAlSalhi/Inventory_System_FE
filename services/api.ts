@@ -1,14 +1,21 @@
-const API_URL = 'http://localhost:3000/api';
+import type { InventoryItem } from "../types";
+import { API_URL } from "@/constant";
 
 export const fetchLocations = async (type?: string) => {
-  const res = await fetch(`${API_URL}/locations?type=${type || ''}`);
+  const res = await fetch(`${API_URL}/locations?type=${type || ""}`);
+  if (!res.ok) throw new Error("Failed to fetch locations");
   return res.json();
 };
 
-export const fetchInventory = async (locationId: number) => {
+export async function getInventoryByLocation(
+  locationId: number,
+): Promise<InventoryItem[]> {
   const res = await fetch(`${API_URL}/inventory/${locationId}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch inventory");
+  }
   return res.json();
-};
+}
 
 export const transferStock = async (payload: {
   product_id: number;
@@ -17,8 +24,8 @@ export const transferStock = async (payload: {
   quantity: number;
 }) => {
   const res = await fetch(`${API_URL}/transfers`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 
