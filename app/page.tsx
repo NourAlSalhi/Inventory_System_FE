@@ -51,7 +51,7 @@ export default function Page() {
           {loading ? (
             <div className="p-6 text-gray-500">Loading inventory...</div>
           ) : (
-            <InventoryTable data={inventory} />
+            <InventoryTable data={inventory} /> 
           )}
         </div>
         <TransferForm onTransferSuccess={loadInventory} />

@@ -1,6 +1,13 @@
 import type { InventoryItem } from "../types";
 import { API_URL } from "@/constant";
 
+interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data: T;
+}
+
+
 export const fetchLocations = async (type?: string) => {
   const res = await fetch(`${API_URL}/locations?type=${type || ""}`);
   if (!res.ok) throw new Error("Failed to fetch locations");
@@ -14,7 +21,8 @@ export async function getInventoryByLocation(
   if (!res.ok) {
     throw new Error("Failed to fetch inventory");
   }
-  return res.json();
+  const json: ApiResponse<InventoryItem[]> = await res.json();
+  return json.data; // ✅ هون الحل
 }
 
 export const transferStock = async (payload: {

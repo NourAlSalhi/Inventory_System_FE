@@ -47,40 +47,50 @@ const TransferForm = ({ onTransferSuccess }: TransferFormProps) => {
 
     fetch(`${API_URL}/locations?type=${type.toLowerCase()}`)
       .then((res) => res.json())
-      .then((data) => setForm((prev) => ({ ...prev, sources: data })));
+      .then((json) =>
+        setForm((prev) => ({ ...prev, sources: json.data }))
+      );
+      
   };
-
   useEffect(() => {
-    if (!form.sourceId) return;
-
+    if (!form.sourceId || !form.sourceType) return;
+  
     const loadProducts = async () => {
-      const res = await fetch(
-        `${API_URL}/inventory/${form.sourceId}`,
-      );
-      const data = await res.json();
-      const products: InventoryProduct[] = data.map(
-        (p: any, index: number) => ({
-          id: index + 1,
-          product_name: p.product_name,
-          quantity: p.quantity,
-        }),
-      );
-      setForm((prev) => ({ ...prev, products, productId: null, quantity: 1 }));
+      const res = await fetch(`${API_URL}/inventory/${form.sourceId}`);
+      const json = await res.json();
+  
+      const products: InventoryProduct[] = json.data.map((p: any) => ({
+        id: p.product_id,
+        product_name: p.product_name,
+        quantity: p.quantity,
+      }));
+  
+      setForm((prev) => ({
+        ...prev,
+        products,
+        productId: null,
+        quantity: 1,
+      }));
     };
-
+  
     const loadDestinations = async () => {
       const destinationType =
         form.sourceType === "Warehouse" ? "store" : "warehouse";
-      const res = await fetch(
-        `${API_URL}/locations?type=${destinationType}`,
-      );
-      const data: Location[] = await res.json();
-      setForm((prev) => ({ ...prev, destinations: data, destinationId: null }));
+  
+      const res = await fetch(`${API_URL}/locations?type=${destinationType}`);
+      const json = await res.json();
+  
+      setForm((prev) => ({
+        ...prev,
+        destinations: json.data,
+        destinationId: null,
+      }));
     };
-
+  
     loadProducts();
     loadDestinations();
   }, [form.sourceId, form.sourceType]);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
