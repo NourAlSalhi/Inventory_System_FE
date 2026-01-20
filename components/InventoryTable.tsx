@@ -1,36 +1,57 @@
-import { InventoryItem } from '@/types';
+import { InventoryItem } from "@/types";
 
 interface Props {
   data: InventoryItem[];
 }
 
-export default function InventoryTable({ data }: Props) {
-  return (
-    <table className="w-full border rounded">
-      <thead>
+const InventoryTable = ({ data }: Props) => (
+  <div className="overflow-x-auto">
+    <table className="w-full text-sm">
+      <thead className="bg-gray-100 text-sm uppercase text-gray-500">
         <tr>
-          <th>Product Name</th>
-          <th>SKU</th>
-          <th>Quantity</th>
-          <th>Status</th>
+          <th className="px-6 py-3 text-left">Product Name</th>
+          <th className="px-6 py-3 text-left">SKU</th>
+          <th className="px-6 py-3 text-left">Quantity</th>
+          <th className="px-6 py-3 text-left">Status</th>
         </tr>
       </thead>
-      <tbody>
-        {data.map(item => (
-          <tr key={item.product_id}>
-            <td>{item.product_name}</td>
-            <td>{item.sku}</td>
-            <td>{item.quantity}</td>
-            <td>
-              {item.quantity === 0
-                ? 'Out of Stock'
-                : item.quantity < 10
-                ? 'Low Stock'
-                : 'In Stock'}
-            </td>
-          </tr>
-        ))}
+
+      <tbody className="divide-y">
+        {data.map((item) => {
+          const status =
+            item.quantity === 0
+              ? "Out of Stock"
+              : item.quantity < 20
+                ? "Low Stock"
+                : "In Stock";
+
+          const badgeColor =
+            item.quantity === 0
+              ? "bg-red-100 text-red-700"
+              : item.quantity < 20
+                ? "bg-yellow-100 text-yellow-700"
+                : "bg-green-100 text-green-700";
+
+          return (
+            <tr key={item.sku}>
+              <td className="px-6 py-4 font-medium text-left">
+                {item.product_name}
+              </td>
+              <td className="px-6 py-4 text-gray-500 text-left">{item.sku}</td>
+              <td className="px-6 py-4 text-left">{item.quantity}</td>
+              <td className="px-6 py-4 text-left">
+                <span
+                  className={`rounded-full px-3 py-1 text-xs ${badgeColor}`}
+                >
+                  {status}
+                </span>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
-  );
-}
+  </div>
+);
+
+export default InventoryTable;
