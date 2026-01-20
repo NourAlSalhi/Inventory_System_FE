@@ -38,7 +38,7 @@ const InventoryTable = ({ data }: Props) => (
                 {item.product_name}
               </td>
               <td className="px-6 py-4 text-gray-500 text-left">{item.sku}</td>
-              <td className="px-6 py-4 text-left">{item.quantity}</td>
+              <td className="px-6 py-4 font-semibold text-left">{item.quantity}</td>
               <td className="px-6 py-4 text-left">
                 <span
                   className={`rounded-full px-3 py-1 text-xs ${badgeColor}`}
